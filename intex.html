@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog: Criptosistemas de Clave Pública</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="overlay">
+    <section class="hero is-striped" style="  background-image: url('img/baner.png');
+                background-size: auto; background-position: center;">
+      <div class="hero-body has-background-dark" style="opacity: 0.6;">
+        <div class="container has-text-centered">
+          <h1 class="title has-text-white">Criptosistemas de Clave Pública</h1>
+          <h2 class="subtitle has-text-white-ter">Blog académico sobre criptografía asimétrica</h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content">
+
+        <h2>¿Qué es un criptosistema de clave pública?</h2>
+        <p>
+          Un criptosistema de clave pública es un modelo criptográfico que utiliza un par de claves: una <strong>clave
+            pública</strong> para cifrar los datos y una <strong>clave privada</strong> para descifrarlos. Este modelo
+          se basa en problemas matemáticos de difícil resolución, como la factorización de números primos o los
+          logaritmos discretos.
+        </p>
+
+        <h2>¿Cómo funciona?</h2>
+        <p>
+          El funcionamiento básico consiste en generar un par de claves, compartir la clave pública con quien desee
+          enviarte un mensaje seguro, y mantener la clave privada en secreto. El remitente cifra el mensaje con tu clave
+          pública, y solo tú puedes descifrarlo con tu clave privada. Esto también permite firmar mensajes, garantizando
+          la autenticidad del remitente.
+        </p>
+
+        <h2>Algoritmos representativos</h2>
+        <ul>
+          <li><strong>RSA:</strong> Utiliza la factorización de números primos. Muy usado en navegadores web, VPNs y
+            firmas digitales.</li>
+          <li><strong>ECC (Curvas Elípticas):</strong> Ofrece alta seguridad con claves más pequeñas. Ideal para
+            dispositivos móviles y tarjetas inteligentes.</li>
+          <li><strong>ElGamal:</strong> Basado en logaritmos discretos. Utilizado en sistemas de cifrado híbrido.</li>
+          <li><strong>Diffie-Hellman:</strong> No es un algoritmo de cifrado, pero permite el intercambio seguro de
+            claves.</li>
+        </ul>
+
+        <h2>Ventajas</h2>
+        <ul>
+          <li>No requiere el envío de claves privadas.</li>
+          <li>Permite cifrado, autenticación y firma digital.</li>
+          <li>Escalable y flexible para múltiples usuarios.</li>
+        </ul>
+
+        <h2>Desventajas</h2>
+        <ul>
+          <li>Más lento que los sistemas simétricos.</li>
+          <li>Mayor uso de recursos computacionales.</li>
+          <li>Complejidad en la implementación segura.</li>
+        </ul>
+        <!-- Imagenes -->
+<h2 class="mt-6">Como entender un poco de lo que es la llave publica</h2>
+<div class="columns is-multiline is-centered">
+  <div class="column is-half">
+    <figure class="image">
+      <img class="img-unificada" src="img/usuariorsa.png" alt="Clave pública y privada explicadas">
+      <figcaption class="has-text-centered">Ejemplo al usuario del algoritmo RSA</figcaption>
+    </figure>
+  </div>
+  <div class="column is-half">
+    <figure class="image">
+      <img class="img-unificada" src="img/diagrama.png" alt="Funcionamiento RSA">
+      <figcaption class="has-text-centered">Diagrama del algoritmo RSA</figcaption>
+    </figure>
+  </div>
+</div>
+        <!-- Fin Imagenes -->
+        <!-- Inicio Video  -->
+        <h2 class="mt-6">Video explicativo</h2>
+<iframe width="560" height="315" src="https://youtu.be/SIIqLgqRMCo?si=9qMEhUXNYD8C9EeY" 
+        title="Criptografía Asimétrica" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
+        <!-- Fin Video Inicio Video  -->
+        <h2>Diferencias con la criptografía simétrica</h2>
+        <table class="table is-bordered is-striped">
+          <thead>
+            <tr>
+              <th>Criptografía Simétrica</th>
+              <th>Criptografía Asimétrica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Usa la misma clave para cifrar y descifrar.</td>
+              <td>Usa una clave pública y otra privada.</td>
+            </tr>
+            <tr>
+              <td>Más rápida y eficiente.</td>
+              <td>Más segura para entornos abiertos.</td>
+            </tr>
+            <tr>
+              <td>Difícil de gestionar en redes grandes.</td>
+              <td>Fácil de escalar.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Caso práctico con NetBeans</h2>
+        <p>Este ejemplo en Java implementado en NetBeans crea claves RSA, cifra y descifra un mensaje:</p>
+        <pre><code>import java.security.*;
+         from cryptography.hazmat.primitives.asymmetric import rsa, padding
+         from cryptography.hazmat.primitives import serialization, hashes
+         
+         # Generar par de claves RSA
+         private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+         public_key = private_key.public_key()
+         
+         # Mensaje a cifrar
+         mensaje = b"Mensaje secreto"
+         
+         # Cifrado con la clave pública
+         encrypted = public_key.encrypt(
+             mensaje,
+             padding.OAEP(
+                 mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                 algorithm=hashes.SHA256(),
+                 label=None
+             )
+         )
+         
+         # Descifrado con la clave privada
+         decrypted = private_key.decrypt(
+             encrypted,
+             padding.OAEP(
+                 mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                 algorithm=hashes.SHA256(),
+                 label=None
+             )
+         )
+         
+         print("Texto descifrado:", decrypted.decode())
+</code></pre>
+
+        <h2>Recomendaciones para implementar criptosistemas</h2>
+        <ul>
+          <li>Utilizar bibliotecas criptográficas reconocidas y actualizadas.</li>
+          <li>Evitar implementar algoritmos criptográficos desde cero.</li>
+          <li>Combinar criptografía asimétrica con simétrica (por ejemplo, RSA + AES) para mayor eficiencia.</li>
+          <li>Proteger adecuadamente las claves privadas (almacenamiento seguro).</li>
+          <li>Actualizar frecuentemente las claves y certificados.</li>
+        </ul>
+
+        <p class="has-text-grey mt-6">Desarrollado por [Tu Nombre] – Estudiante de Ingeniería de Sistemas. Basado en los
+          contenidos del curso y referencias académicas.</p>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>Markus Spiske
